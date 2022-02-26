@@ -1,0 +1,28 @@
+<ion-grid fixed>
+  <ion-row>
+      <ion-col *ngFor="let article of articles; let i = index"
+        size="12" size-lg="3" size-md="4" size-sm="6" size-sx="12">
+
+       <!-- <ion-card>
+         <ion-card-subtitle class="ion-margin">
+          <span class="text-primary">{{i + 1}}. </span>
+          <span class="article-source-name">{{article.source.name}}</span>
+         </ion-card-subtitle>
+
+         <ion-card-title class="ion-padding-horizontal ion-margin-button">
+           {{article.title}}
+         </ion-card-title>
+
+         <ion-img *ngIf="article.urlToImage" [src]="article.urlToImage"></ion-img>
+
+         <ion-card-content
+            *ngIf="article.description" >
+           <p>{{article.description}}</p>
+         </ion-card-content>
+       </ion-card> -->
+
+       <app-article [article]="article" [index]="i+1"></app-article>
+        
+      </ion-col>
+  </ion-row>
+</ion-grid>
