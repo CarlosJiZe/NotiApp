@@ -3,6 +3,7 @@ import {Storage} from '@ionic/storage-angular'
 import { Article } from '../interfaces';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -52,5 +53,9 @@ export class StorageService {
     }catch (error){
       // this._localArticles=[]
     }
+  }
+
+  articleInFavorites(article:Article){
+    return !!this._localArticles.find(localArticle=>localArticle.title===article.title)
   }
 }

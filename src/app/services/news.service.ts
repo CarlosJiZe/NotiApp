@@ -5,8 +5,9 @@ import { environment } from 'src/environments/environment';
 import { Article, NewsResponse, ArticlesByCategoryAndPage } from '../interfaces';
 import {map} from 'rxjs/operators'
 import { IonInfiniteScroll } from '@ionic/angular'
+import { storedArticlesByCategory } from '../Data/mock-news';
 
-
+storedArticlesByCategory
 
 const apiKey = environment.apiKey
 const apiUrls=environment.apiUrls
@@ -16,7 +17,7 @@ const apiUrls=environment.apiUrls
 })
 export class NewsService {
 
-  private ArticlesByCategoryAndPage: ArticlesByCategoryAndPage={ }
+  private ArticlesByCategoryAndPage: ArticlesByCategoryAndPage=storedArticlesByCategory
 
   constructor(private http:HttpClient) { }
 
@@ -45,6 +46,8 @@ export class NewsService {
   }
 
   getHeadlinesByCategory(category:string, loadMore:boolean=false):Observable<Article[]>{
+    
+    return of(this.ArticlesByCategoryAndPage[category].articles)
  
     if(loadMore){
       this.getArticlesByCategory(category)
