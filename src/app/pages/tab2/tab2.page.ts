@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NewsService } from '../../services/news.service';
 import { Article } from '../../interfaces';
+import { IonInfiniteScroll } from '@ionic/angular'
 
 @Component({
   selector: 'app-tab2',
@@ -8,6 +9,8 @@ import { Article } from '../../interfaces';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit{
+
+  @ViewChild(IonInfiniteScroll, {static:true}) infiniteScroll: IonInfiniteScroll
 
   public categories: string[] = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology']
 
@@ -18,13 +21,26 @@ export class Tab2Page implements OnInit{
   constructor(private newsService:NewsService) {}
 
   ngOnInit() {
-      this.newsService.getHeadlinesByCategory(this.selectedCategory).subscribe(articles=> {this.articles=[...this.articles,...articles]})
+      this.newsService.getHeadlinesByCategory(this.selectedCategory).subscribe(articles=> {this.articles=[...articles]})
   }
 
-  segmentChanged(category:any){
-    this.selectedCategory=category.detail.value
+  segmentChanged(event: Event){
+    this.selectedCategory=(event as CustomEvent).detail.value
     this.newsService.getHeadlinesByCategory(this.selectedCategory).subscribe(articles=> {this.articles=[...articles]})
 
+  }
+
+  loadData(){
+    this.newsService.getHeadlinesByCategory(this.selectedCategory,true)
+      .subscribe(articles=>{
+
+
+        this.articles=articles
+        this.infiniteScroll.complete()
+          // event.target.complete()
+      })
+
+      
   }
 
   
